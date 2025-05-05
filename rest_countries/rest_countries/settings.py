@@ -43,6 +43,12 @@ INSTALLED_APPS = [
     'django.contrib.sessions',
     'django.contrib.messages',
     'django.contrib.staticfiles',
+    'django.contrib.postgres'
+]
+
+# Custom apps
+INSTALLED_APPS += [
+    'core',  # Your custom app
 ]
 
 MIDDLEWARE = [
