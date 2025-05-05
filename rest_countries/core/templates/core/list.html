@@ -1,0 +1,76 @@
+{% extends "base.html" %}
+{% load static %}
+{% load humanize %}
+
+{% block content %}
+<div class="container mt-4">
+    <h1>Countries List</h1>
+    
+    <!-- Search Form -->
+    <form method="get" class="mb-4">
+        <div class="row g-3">
+            <div class="col-md-4">
+                <div class="input-group">
+                    <input type="text" name="search" class="form-control" 
+                           placeholder="Search countries..." value="{{ search_query }}">
+                </div>
+            </div>
+            <div class="col-md-3">
+                <select name="region" class="form-select">
+                    <option value="">All Regions</option>
+                    {% for region in regions %}
+                        <option value="{{ region.name }}" {% if region_filter == region.name %}selected{% endif %}>
+                            {{ region.name }}
+                        </option>
+                    {% endfor %}
+                </select>
+            </div>
+            <div class="col-md-3">
+                <select name="language" class="form-select">
+                    <option value="">All Languages</option>
+                    {% for language in languages %}
+                        <option value="{{ language.code }}" {% if language_filter == language.code %}selected{% endif %}>
+                            {{ language.name }}
+                        </option>
+                    {% endfor %}
+                </select>
+            </div>
+            <div class="col-md-2">
+                <button type="submit" class="btn btn-primary w-100">Filter</button>
+            </div>
+        </div>
+    </form>
+
+
+    <!-- Country Table -->
+    <table class="table table-striped">
+        <thead>
+            <tr>
+                <th>Name</th>
+                <th>Code</th>
+                <th>Capital</th>
+                <th>Population</th>
+                <th>Actions</th>
+            </tr>
+        </thead>
+        <tbody>
+            {% for country in page_obj %}
+            <tr>
+                <td>{{ country.name }}</td>
+                <td>{{ country.cca2 }}</td>
+                <td>{{ country.capital }}</td>
+                <td>{{ country.population|intcomma }}</td>
+                <td>
+                    <a href="{% url 'country-detail' country.pk %}" class="btn btn-info btn-sm">
+                        Details
+                    </a>
+                </td>
+            </tr>
+            {% endfor %}
+        </tbody>
+    </table>
+
+    <!-- Pagination -->
+    {% include 'core/pagination.html' %}
+</div>
+{% endblock %}

@@ -8,6 +8,8 @@ class Language(models.Model):
     code = models.CharField(max_length=3, unique=True)
     name = models.CharField(max_length=100)
 
+    
+
 
 class Country(models.Model):
     name = models.CharField(max_length=100)

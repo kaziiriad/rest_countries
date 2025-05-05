@@ -1,0 +1,128 @@
+{% extends "base.html" %}
+{% load static %}
+
+{% block content %}
+<div class="container mt-4">
+    <a href="{% url 'country-list' %}" class="btn btn-outline-secondary mb-4">
+        &larr; Back to List
+    </a>
+
+    <div class="card border-primary">
+        <div class="card-header bg-primary text-white">
+            <h2 class="mb-0">{{ country.name }} Details</h2>
+        </div>
+        
+        <div class="card-body">
+            <div class="row">
+                <div class="col-md-4 text-center">
+                    <img src="{{ country.flag_url }}" 
+                         class="img-fluid mb-3 flag-image" 
+                         alt="{{ country.name }} Flag"
+                         style="max-height: 200px">
+                         
+                    <div class="alert alert-info">
+                        <h5 class="alert-heading">Quick Facts</h5>
+                        <hr>
+                        <p class="mb-1">
+                            <strong>Region:</strong> 
+                            <a href="?region={{ country.region.name }}" 
+                               class="text-decoration-none">
+                               {{ country.region.name }}
+                            </a>
+                            ({{ region_countries_count }} countr{{ region_countries_count|pluralize:"y,ies" }})
+                        </p>
+                        <p class="mb-0">
+                            <strong>Timezones:</strong> {{ timezones|join:", " }}
+                        </p>
+                    </div>
+                </div>
+
+                <div class="col-md-8">
+                    <div class="row">
+                        <div class="col-md-6">
+                            <h5 class="border-bottom pb-2">Basic Information</h5>
+                            <dl class="row">
+                                <dt class="col-sm-4">CCA2 Code</dt>
+                                <dd class="col-sm-8">{{ country.cca2 }}</dd>
+
+                                <dt class="col-sm-4">Capital</dt>
+                                <dd class="col-sm-8">{{ country.capital|default:"N/A" }}</dd>
+
+                                <dt class="col-sm-4">Population</dt>
+                                <dd class="col-sm-8">{{ population_formatted }}</dd>
+                            </dl>
+                        </div>
+
+                        <div class="col-md-6">
+                            <h5 class="border-bottom pb-2">Languages</h5>
+                            <ul class="list-group">
+                                {% for lang in languages %}
+                                <li class="list-group-item d-flex justify-content-between align-items-center">
+                                    <div>
+                                        <strong>{{ lang.code|upper }}</strong>: {{ lang.name }}
+                                    </div>
+                                    <span class="badge bg-primary rounded-pill">
+                                        {{ lang.country_count }} countr{{ lang.country_count|pluralize:"y,ies" }}
+                                    </span>
+                                </li>
+                                {% endfor %}
+                            </ul>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Regional Countries Section -->
+    <div class="card mt-4">
+        <div class="card-header bg-secondary text-white">
+            <h5 class="mb-0">Neighboring Countries in {{ country.region.name }}</h5>
+        </div>
+        <div class="card-body">
+            <div class="row row-cols-1 row-cols-md-3 g-4">
+                {% for regional in regional_countries %}
+                <div class="col">
+                    <div class="card h-100">
+                        <img src="{{ regional.flag_url }}" 
+                             class="card-img-top regional-flag" 
+                             alt="{{ regional.name }} Flag"
+                             style="height: 100px; object-fit: cover">
+                        <div class="card-body">
+                            <h6 class="card-title">{{ regional.name }}</h6>
+                            <p class="card-text mb-1">
+                                <small>Capital: {{ regional.capital|default:"N/A" }}</small>
+                            </p>
+                            <a href="{% url 'country-detail' regional.pk %}" 
+                               class="btn btn-sm btn-outline-primary mt-2">
+                                View Details
+                            </a>
+                        </div>
+                    </div>
+                </div>
+                {% empty %}
+                <div class="col">
+                    <p class="text-muted">No other countries in this region</p>
+                </div>
+                {% endfor %}
+            </div>
+        </div>
+    </div>
+</div>
+
+<style>
+    .flag-image {
+        border: 1px solid #dee2e6;
+        border-radius: 5px;
+        padding: 5px;
+        background: white;
+    }
+    .regional-flag {
+        border-bottom: 2px solid #dee2e6;
+    }
+    dl dt {
+        font-weight: normal;
+        color: #6c757d;
+    }
+</style>
+{% endblock %}

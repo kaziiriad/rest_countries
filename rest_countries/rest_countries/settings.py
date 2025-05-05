@@ -44,7 +44,9 @@ INSTALLED_APPS = [
     'django.contrib.messages',
     'django.contrib.staticfiles',
     'django.contrib.postgres',
-    'django_filters'
+    'django_filters',
+    'django.contrib.humanize'
+    
 ]
 
 # Custom apps

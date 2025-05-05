@@ -25,5 +25,6 @@ router.register(r'countries', CountryViewSet)
 
 urlpatterns = [
     path('admin/', admin.site.urls),
-    path('api/', include(router.urls)),  
+    path('api/', include(router.urls)),
+    path('', include('core.urls'))  
 ]
