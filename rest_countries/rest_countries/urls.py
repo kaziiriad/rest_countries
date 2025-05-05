@@ -21,6 +21,7 @@ from core.api.views import CountryViewSet
 from rest_framework.routers import DefaultRouter
 from django_registration.backends.one_step.views import RegistrationView
 from django.contrib.auth.views import LoginView, LogoutView, PasswordResetView
+from django.urls import reverse_lazy
 
 # Create a router and register our viewset with it.
 router = DefaultRouter()
@@ -31,10 +32,10 @@ urlpatterns = [
     path('api/', include(router.urls)),
     path('', include('core.urls')),
     path('accounts/register/',
-        RegistrationView.as_view(success_url='country-list', template_name='registration/register.html'),
+        RegistrationView.as_view(success_url=reverse_lazy('country-list'), template_name='registration/register.html'),
         name='django_registration_register'),
     path('accounts/', include('django_registration.backends.one_step.urls')),
-    path('accounts/login/', LoginView.as_view(template_name='registration/login.html'), name='login'),
+    path('accounts/login/', LoginView.as_view(success_url=reverse_lazy('country-list'), template_name='registration/login.html'), name='login'),
     path('accounts/logout/', LogoutView.as_view(), name='logout'),
     path('accounts/password_reset/', PasswordResetView.as_view(), name='password_reset'),
 ]

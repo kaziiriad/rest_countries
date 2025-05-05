@@ -9,6 +9,15 @@ class Command(BaseCommand):
         response = requests.get('https://restcountries.com/v3.1/all')
         data = response.json()
 
+        # check if database is empty
+        if Country.objects.exists():
+            self.stdout.write(self.style.WARNING('Database already populated. Exiting...'))
+            return
+        self.stdout.write(self.style.SUCCESS('Fetching country data...'))
+        self.stdout.write(self.style.SUCCESS('Creating countries...'))
+        self.stdout.write(self.style.SUCCESS('Creating regions...'))
+        self.stdout.write(self.style.SUCCESS('Creating languages...'))
+
         for country_data in data:
             # Extract data
             name = country_data.get('name', {}).get('common', '')
