@@ -30,11 +30,11 @@ class CountryService:
         
         regional_countries = CountryService.get_regional_countries(country)
         
+        # Get languages with country count
         languages = Language.objects.annotate(
         country_count=Count('countries')
         ).values('code', 'name', 'country_count')
         # print(languages)    
-        # Get languages with country count
         languages_for_country = languages.filter(countries=country).values('code', 'name', 'country_count')
         # print(languages_for_country)
         return {

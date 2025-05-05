@@ -6,7 +6,9 @@ from django.urls import reverse
 from django.http import HttpResponse
 from django.core.paginator import Paginator
 from django.db.models import Count
+from django.contrib.auth.decorators import login_required
 
+@login_required
 def country_list(request):
     """
     View to list all countries.
@@ -40,6 +42,7 @@ def country_list(request):
     })
     
 
+@login_required
 def country_detail(request, pk):
     """
     View to display details of a specific country.

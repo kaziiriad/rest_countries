@@ -15,9 +15,12 @@ Including another URLconf
     2. Add a URL to urlpatterns:  path('blog/', include('blog.urls'))
 """
 from django.contrib import admin
+# from django.contrib.auth import views as auth_views
 from django.urls import path, include
 from core.api.views import CountryViewSet
 from rest_framework.routers import DefaultRouter
+from django_registration.backends.one_step.views import RegistrationView
+from django.contrib.auth.views import LoginView, LogoutView, PasswordResetView
 
 # Create a router and register our viewset with it.
 router = DefaultRouter()
@@ -26,5 +29,12 @@ router.register(r'countries', CountryViewSet)
 urlpatterns = [
     path('admin/', admin.site.urls),
     path('api/', include(router.urls)),
-    path('', include('core.urls'))  
+    path('', include('core.urls')),
+    path('accounts/register/',
+        RegistrationView.as_view(success_url='country-list', template_name='registration/register.html'),
+        name='django_registration_register'),
+    path('accounts/', include('django_registration.backends.one_step.urls')),
+    path('accounts/login/', LoginView.as_view(template_name='registration/login.html'), name='login'),
+    path('accounts/logout/', LogoutView.as_view(), name='logout'),
+    path('accounts/password_reset/', PasswordResetView.as_view(), name='password_reset'),
 ]

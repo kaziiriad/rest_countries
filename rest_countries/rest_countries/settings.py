@@ -53,6 +53,7 @@ INSTALLED_APPS = [
 INSTALLED_APPS += [
     'rest_framework',
     'core',  
+    'django_registration',  # For user registration
 ]
 
 MIDDLEWARE = [
@@ -65,7 +66,11 @@ MIDDLEWARE = [
     'django.middleware.clickjacking.XFrameOptionsMiddleware',
 ]
 REST_FRAMEWORK = {
-    'DEFAULT_FILTER_BACKENDS': ['django_filters.rest_framework.DjangoFilterBackend']
+    'DEFAULT_FILTER_BACKENDS': ['django_filters.rest_framework.DjangoFilterBackend'],
+    'DEFAULT_PERMISSION_CLASSES': [
+        'rest_framework.permissions.IsAuthenticated',
+    ]
+
 }
 
 ROOT_URLCONF = 'rest_countries.urls'
@@ -149,3 +154,6 @@ STATIC_URL = 'static/'
 # https://docs.djangoproject.com/en/5.2/ref/settings/#default-auto-field
 
 DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
+LOGIN_REDIRECT_URL = 'country-list'
+LOGOUT_REDIRECT_URL = 'login'
+# LOGIN_URL = 'accounts/login/'
