@@ -43,12 +43,14 @@ INSTALLED_APPS = [
     'django.contrib.sessions',
     'django.contrib.messages',
     'django.contrib.staticfiles',
-    'django.contrib.postgres'
+    'django.contrib.postgres',
+    'django_filters'
 ]
 
 # Custom apps
 INSTALLED_APPS += [
-    'core',  # Your custom app
+    'rest_framework',
+    'core',  
 ]
 
 MIDDLEWARE = [
@@ -60,6 +62,9 @@ MIDDLEWARE = [
     'django.contrib.messages.middleware.MessageMiddleware',
     'django.middleware.clickjacking.XFrameOptionsMiddleware',
 ]
+REST_FRAMEWORK = {
+    'DEFAULT_FILTER_BACKENDS': ['django_filters.rest_framework.DjangoFilterBackend']
+}
 
 ROOT_URLCONF = 'rest_countries.urls'
 
